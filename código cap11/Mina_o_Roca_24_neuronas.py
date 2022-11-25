@@ -22,14 +22,14 @@
 #---------------------------------------------
 
 import pandas as pnd
-observaciones = pnd.read_csv("datas/sonar.all-data.csv")
+observaciones = pnd.read_csv("código cap11/datas/sonar.all-data.csv")
 
 
 #---------------------------------------------
 # PREPARACIÓN DE LOS DATOS
 #---------------------------------------------
 
-print("N.º columnas: ",len(observations.columns))
+print("N.º columnas: ",len(observaciones.columns))
 #Para el parendizaje solo se toman los datos procedentes del sonar
 X = observaciones[observaciones.columns[0:60]].values
 
@@ -73,7 +73,8 @@ train_x, test_x, train_y, test_y = train_test_split(X, Y, test_size=0.07, random
 #---------------------------------------------
 # PARAMETRIZACIÓN DE LA RED NEURONAL
 #---------------------------------------------
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 epochs = 300
 cantidad_neuronas_entrada = 60
@@ -110,10 +111,10 @@ peso_sesgo = {
 #---------------------------------------------
 
 
-def red_neuronas_multiccapas(observaciones_en_entradas, pesos, peso_sego):
+def red_neuronas_multicapas(observaciones_en_entradas, pesos, peso_sego):
 
     #Cálculo de la activación de la primera capa
-    primera_activacion = tf.sigmoid(tf.matmul(tf_neurones_entrees_X, poids['capa_entrada_hacia_oculta']) + poids_sesgo['peso_sesgo_capa_entrada_hacia_oculta'])
+    primera_activacion = tf.sigmoid(tf.matmul(tf_neuronas_entradas_X, pesos['capa_entrada_hacia_oculta']) + peso_sesgo['peso_sesgo_capa_entrada_hacia_oculta'])
 
     #Cálculo de la activación de la segunda capa
     activacion_capa_oculta = tf.sigmoid(tf.matmul(primera_activacion, pesos['capa_oculta_hacia_salida']) + peso_sesgo['peso_sesgo_capa_oculta_hacia_salida'])
@@ -124,7 +125,7 @@ def red_neuronas_multiccapas(observaciones_en_entradas, pesos, peso_sego):
 #---------------------------------------------
 # CREACIÓN DE LA RED NEURONAL
 #---------------------------------------------
-red = red_neuronas_multicapa(tf_neuronas_entradas_X, pesos, peso_sesgo)
+red = red_neuronas_multicapas(tf_neuronas_entradas_X, pesos, peso_sesgo)
 
 
 #---------------------------------------------
@@ -270,7 +271,7 @@ n_clasificaciones = 0;
 n_clasificaciones_correctas = 0
 for i in range(0,207):
 
-    prediccion_run = sesion.run(clasificacionse, feed_dict={tf_neuronas_entradas_X:X[i].reshape(1,60)})
+    prediccion_run = sesion.run(clasificaciones, feed_dict={tf_neuronas_entradas_X:X[i].reshape(1,60)})
     accuracy_run = sesion.run(formula_precision, feed_dict={tf_neuronas_entradas_X:X[i].reshape(1,60), tf_valores_reales_Y:Y[i].reshape(1,2)})
 
     n_clasificaciones = n_clasificaciones + 1

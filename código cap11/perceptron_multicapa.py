@@ -15,8 +15,8 @@
 #   Elegir la versión en la parte inferior derecha
 #   Haga clic en el botón install situado en la parte inferior izquierda
 #-----------------------------------------------------------------------------------------
-
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import numpy as np
 
 
@@ -38,7 +38,7 @@ valores_a_predecir_Y = [[0.], [1.], [1.], [0.]]
 tf_neuronas_entradas_X = tf.placeholder(tf.float32, [None, 2])
 
 #Variable TensorFlow correspondiente a la neurona de salida (predicción real)
-tf_valores_realles_Y = tf.placeholder(tf.float32, [None, 1])
+tf_valores_reales_Y = tf.placeholder(tf.float32, [None, 1])
 
 
 #Cantidad de neuronas en la capa oculta
@@ -74,7 +74,7 @@ funcion_error = tf.reduce_sum(tf.pow(tf_valores_reales_Y-activacion_capa_oculta,
 optimizador = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(funcion_error)
 
 #Cantidad de epochs
-epochs = 100000
+epochs = 1000
 
 #Inicialización de la variable
 init = tf.global_variables_initializer()
@@ -91,7 +91,7 @@ Grafica_MSE=[]
 for i in range(epochs):
 
    #Realización del aprendizaje con actualización de los pesos
-   session.run(optimizador, feed_dict = {tf_neuronas_entradas_X: valores_entradas_X, tf_valores_reales_Y:valores_a_predecir_Y})
+   sesion.run(optimizador, feed_dict = {tf_neuronas_entradas_X: valores_entradas_X, tf_valores_reales_Y:valores_a_predecir_Y})
 
    #Calcular el error
    MSE = sesion.run(funcion_error, feed_dict = {tf_neuronas_entradas_X: valores_entradas_X, tf_valores_reales_Y:valores_a_predecir_Y})
@@ -115,4 +115,5 @@ for i in range(0,4):
 
 
 
-session.close()
+sesion.close()
+

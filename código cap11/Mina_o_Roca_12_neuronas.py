@@ -22,7 +22,7 @@
 #---------------------------------------------
 
 import pandas as pnd
-observaciones = pnd.read_csv("datas/sonar.all-data.csv")
+observaciones = pnd.read_csv("código cap11/datas/sonar.all-data.csv")
 
 
 #---------------------------------------------
@@ -73,7 +73,8 @@ train_x, test_x, train_y, test_y = train_test_split(X, Y, test_size=0.07, random
 #---------------------------------------------
 # PARAMETRIZACIÓN DE LA RED NEURONAL
 #---------------------------------------------
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 epochs = 300
 cantidad_neuronas_entrada = 60
