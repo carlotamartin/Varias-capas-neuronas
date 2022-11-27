@@ -7,8 +7,12 @@ import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
 class Neurona():
-    def __init__ (self, reader):
+    def __init__ (self, reader, epochs,cantidad_neuronas_entrada,  cantidad_neuronas_salida, tasa_aprendizaje):
         self.observaciones = pd.read_csv(reader)
+        self.epochs = epochs
+        self.cantidad_neuronas_entrada = cantidad_neuronas_entrada
+        self.cantidad_neuronas_salida = cantidad_neuronas_salida
+        self.tasa_aprendizaje = tasa_aprendizaje
 
     def preparacion_datos(self):
         print("N.º columnas: ",len(self.observaciones.columns))
@@ -41,9 +45,9 @@ class Neurona():
 
         #Creación de los conjuntos de aprendizaje
         train_x, test_x, train_y, test_y = train_test_split(X, Y, test_size=0.07, random_state=42)
+        return train_x, test_x, train_y, test_y
 
-
-    def parametrización(self, epochs,cantidad_neuronas_entrada,  cantidad_neuronas_salida, tasa_aprendizaje):
+    def parametrización(self):
         tf_neuronas_entradas_X = tf.placeholder(tf.float32,[None, 60])
         tf_valores_reales_Y = tf.placeholder(tf.float32,[None, 2])
         pesos = {
@@ -63,7 +67,7 @@ class Neurona():
             #1 sesgo de la capa oculta hacia las 2 neuronas de la capa de salida
             'peso_sesgo_capa_oculta_hacia_salida': tf.Variable(tf.zeros([2]), tf.float32),
         }
-        return tf_neuronas_entradas_X, tf_valores_reales_Y
+        return tf_neuronas_entradas_X, tf_valores_reales_Y, pesos, peso_sesgo
 
 
 
