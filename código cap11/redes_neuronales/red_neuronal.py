@@ -9,7 +9,7 @@ class red_neuronal(Neurona):
         super().__init__(tasa_aprendizaje= tasa_de_aprendizaje)
         self.tf_neuronas_entradas_X, self.tf_valores_reales_Y, self.pesos, self.peso_sesgo = Neurona.parametrización()
         self.train_x, self.test_x, self.train_y, self.test_y  = Neurona.aprendizaje()
-
+        self.Y = Neurona.preparacion_datos()
 
     def red_neuronas_multicapa(self):
 
@@ -65,7 +65,7 @@ class red_neuronal(Neurona):
         formula_precision = tf.reduce_mean(tf.cast(formula_calculo_clasificaciones_correctas, tf.float32))
         return clasificaciones, formula_precision
 
-    def precision (self, sesion, clasificaciones, formula_precision):
+    def precision_pruebas (self, sesion, clasificaciones, formula_precision):
         n_clasificaciones = 0;
         n_clasificaciones_correctas = 0
 
@@ -95,13 +95,58 @@ class red_neuronal(Neurona):
         print("Precisión en los datos de pruebas = "+str((n_clasificaciones_correctas/n_clasificaciones)*100)+"%")
 
 
+    def precision_aprendizaje(self,  sesion, clasificaciones, formula_precision):
+        n_clasificaciones = 0;
+        n_clasificaciones_correctas = 0
+        for i in range(0,self.train_x.shape[0]):
+
+            # Recuperamos la información
+            datosSonar = self.train_x[i].reshape(1, 60)
+            clasificacionEsperada = self.train_y[i].reshape(1, 2)
+
+            # Realizamos la clasificación
+            prediccion_run = sesion.run(clasificaciones, feed_dict={self.tf_neuronas_entradas_X: datosSonar})
+
+            # Calculamos la precisión de la clasificación con la ayuda de la fórmula establecida antes
+            accuracy_run = sesion.run(formula_precision, feed_dict={self.tf_neuronas_entradas_X: datosSonar, self.tf_valores_reales_Y: clasificacionEsperada})
+
+            n_clasificaciones = n_clasificaciones + 1
+            if (accuracy_run * 100 == 100):
+                n_clasificaciones_correctas = n_clasificaciones_correctas + 1
+
+
+        print("Precisión en los datos de aprendizaje = " + str((n_clasificaciones_correctas / n_clasificaciones) * 100) + "%")
+
+
+    def precision_datos(self, sesion, clasificaciones, formula_precision):
+        n_clasificaciones = 0;
+        n_clasificaciones_correctas = 0
+        for i in range(0,207):
+
+            prediccion_run = sesion.run(clasificaciones, feed_dict={self.tf_neuronas_entradas_X:X[i].reshape(1,60)})
+            accuracy_run = sesion.run(formula_precision, feed_dict={self.tf_neuronas_entradas_X:X[i].reshape(1,60), self.tf_valores_reales_Y:self.Y[i].reshape(1,2)})
+
+            n_clasificaciones = n_clasificaciones + 1
+            if (accuracy_run * 100 == 100):
+                n_clasificaciones_correctas = n_clasificaciones_correctas + 1
+
+
+        print("Precisión en el conjunto de datos = " + str((n_clasificaciones_correctas / n_clasificaciones) * 100) + "%")
+
+
+
+
+        sesion.close()
+
 def main ():
     red = red_neuronal()
     red.red_neuronas_multicapa()
     funcion_error, funcion_precision, optimizador = red.error_optimizacion()
     grafica, sesion = red.aprendizaje(funcion_error, funcion_precision, optimizador)
     red.plot(grafica)
-    red.verf_aprendizaje(red, 1)
-    red.
+    clasificaciones, formula_precision = red.verf_aprendizaje(red, 1)
+    red.precision_pruebas(sesion, clasificaciones, formula_precision)
+    red.precision_aprendizaje(sesion, clasificaciones, formula_precision)
+    red.precision_datos(sesion, clasificaciones, formula_precision)
 
 
