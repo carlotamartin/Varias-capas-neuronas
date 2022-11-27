@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 
 
 class red_neuronal(Neurona):
-    def __init__ (self, tasa_de_aprendizaje, epochs ):
+    def __init__ (self, tasa_de_aprendizaje, epochs):
         super().__init__(Neurona)
         super().__init__(epochs= epochs)
         super().__init__(tasa_aprendizaje= tasa_de_aprendizaje)
-        self.tf_neuronas_entradas_X, self.tf_valores_reales_Y, self.pesos, self.peso_sesgo = Neurona.parametrización()
-        self.train_x, self.test_x, self.train_y, self.test_y  = Neurona.aprendizaje()
         self.Y = Neurona.preparacion_datos()
+        self.train_x, self.test_x, self.train_y, self.test_y  = Neurona.aprendizaje()
+        self.tf_neuronas_entradas_X, self.tf_valores_reales_Y, self.pesos, self.peso_sesgo = Neurona.parametrización()
 
     def red_neuronas_multicapa(self):
 
@@ -80,11 +80,11 @@ class red_neuronal(Neurona):
             prediccion_run = sesion.run(clasificaciones, feed_dict={self.tf_neuronas_entradas_X:datosSonar})
 
             #Se calcula la precisión de la clasificación con la ayuda de la fórmula establecida antes
-            accuracy_run = sesion.run(formula_precision, feed_dict={self.tf_neuronas_entradas_X:datosSonar, tf_valores_reales_Y:clasificacionEsperada})
+            accuracy_run = sesion.run(formula_precision, feed_dict={self.tf_neuronas_entradas_X:datosSonar, self.tf_valores_reales_Y:clasificacionEsperada})
 
 
             #Se muestra para observación la clase original y la clasificación realizada
-            print(i,"Clase esperada: ", int(sesion.run(self.tf_valores_reales_Y[i][1],feed_dict={self.tf_valores_reales_Y:test_y})), "Clasificación: ", prediccion_run[0] )
+            print(i,"Clase esperada: ", int(sesion.run(self.tf_valores_reales_Y[i][1],feed_dict={self.tf_valores_reales_Y:self.test_y})), "Clasificación: ", prediccion_run[0] )
 
             n_clasificaciones = n_clasificaciones+1
             if(accuracy_run*100 ==100):

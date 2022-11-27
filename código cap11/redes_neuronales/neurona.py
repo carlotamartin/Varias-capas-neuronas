@@ -7,12 +7,12 @@ import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
 class Neurona():
-    def __init__ (self, reader, epochs,cantidad_neuronas_entrada,  cantidad_neuronas_salida, tasa_aprendizaje):
+    def __init__ (self, reader):
         self.observaciones = pd.read_csv(reader)
-        self.epochs = epochs
-        self.cantidad_neuronas_entrada = cantidad_neuronas_entrada
-        self.cantidad_neuronas_salida = cantidad_neuronas_salida
-        self.tasa_aprendizaje = tasa_aprendizaje
+        self.epochs = 300
+        self.cantidad_neuronas_entrada = 60
+        self.cantidad_neuronas_salida = 2
+        self.tasa_aprendizaje = 0.01
 
     def preparacion_datos(self):
         print("N.º columnas: ",len(self.observaciones.columns))
@@ -78,6 +78,8 @@ def main ():
     neurona = Neurona("código cap11/datas/sonar.all-data.csv")
     neurona.preparacion_datos()
     neurona.aprendizaje()
-    tf_neuronas_entradas_X, tf_valores_reales_Y =  neurona.parametrización(12)
+    tf_neuronas_entradas_X, tf_valores_reales_Y, pesos, peso_sesgo =  neurona.parametrización(12)
+
+
 if __name__ == "__main__":
     main()
