@@ -39,9 +39,9 @@ class Neurona():
         print("Clase Roca:",int(Y[0][1]))
         print("Clase Mina:",int(Y[97][1]))
 
-        return Y
+        return X, Y
 
-    def aprendizaje(self):
+    def aprendizaje(self, X, Y):
         #Mezclamos
         X, Y = shuffle(X, Y, random_state=1)
 
@@ -58,10 +58,7 @@ class Neurona():
 
             # 12 neuronas de la capa oculta hacia 2 de la capa de salida
             'capa_oculta_hacia_salida': tf.Variable(tf.random_uniform([x, 2], minval=-0.3, maxval=0.3), tf.float32),
-
-
         }
-
         peso_sesgo = {
             #1 sesgo de la capa de entrada hacia las 24 neuronas de la capa oculta
             'peso_sesgo_capa_entrada_hacia_oculta': tf.Variable(tf.zeros([x]), tf.float32),
@@ -69,6 +66,7 @@ class Neurona():
             #1 sesgo de la capa oculta hacia las 2 neuronas de la capa de salida
             'peso_sesgo_capa_oculta_hacia_salida': tf.Variable(tf.zeros([2]), tf.float32),
         }
+
         return tf_neuronas_entradas_X, tf_valores_reales_Y, pesos, peso_sesgo
 
 
@@ -76,9 +74,9 @@ class Neurona():
 
 def main ():
     neurona = Neurona("código cap11/datas/sonar.all-data.csv")
-    neurona.preparacion_datos()
-    neurona.aprendizaje()
-    tf_neuronas_entradas_X, tf_valores_reales_Y, pesos, peso_sesgo =  neurona.parametrización(12)
+    X, Y = neurona.preparacion_datos()
+    neurona.aprendizaje(X, Y)
+    neurona.parametrización(12)
 
 
 if __name__ == "__main__":
