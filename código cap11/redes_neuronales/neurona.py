@@ -39,6 +39,8 @@ class Neurona():
         print("Clase Roca:",int(Y[0][1]))
         print("Clase Mina:",int(Y[97][1]))
 
+        return Y
+
     def aprendizaje(self):
         #Mezclamos
         X, Y = shuffle(X, Y, random_state=1)
