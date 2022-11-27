@@ -49,22 +49,22 @@ class Neurona():
         train_x, test_x, train_y, test_y = train_test_split(X, Y, test_size=0.07, random_state=42)
         return train_x, test_x, train_y, test_y
 
-    def parametrización(self):
+    def parametrización(self, x):
         tf_neuronas_entradas_X = tf.placeholder(tf.float32,[None, 60])
         tf_valores_reales_Y = tf.placeholder(tf.float32,[None, 2])
         pesos = {
             #60 neuronas de las entradas hacia 24 Neuronas de la capa oculta
-            'capa_entrada_hacia_oculta': tf.Variable(tf.random_uniform([60, 12], minval=-0.3, maxval=0.3), tf.float32),
+            'capa_entrada_hacia_oculta': tf.Variable(tf.random_uniform([60, x], minval=-0.3, maxval=0.3), tf.float32),
 
             # 12 neuronas de la capa oculta hacia 2 de la capa de salida
-            'capa_oculta_hacia_salida': tf.Variable(tf.random_uniform([12, 2], minval=-0.3, maxval=0.3), tf.float32),
+            'capa_oculta_hacia_salida': tf.Variable(tf.random_uniform([x, 2], minval=-0.3, maxval=0.3), tf.float32),
 
 
         }
 
         peso_sesgo = {
             #1 sesgo de la capa de entrada hacia las 24 neuronas de la capa oculta
-            'peso_sesgo_capa_entrada_hacia_oculta': tf.Variable(tf.zeros([12]), tf.float32),
+            'peso_sesgo_capa_entrada_hacia_oculta': tf.Variable(tf.zeros([x]), tf.float32),
 
             #1 sesgo de la capa oculta hacia las 2 neuronas de la capa de salida
             'peso_sesgo_capa_oculta_hacia_salida': tf.Variable(tf.zeros([2]), tf.float32),
@@ -78,6 +78,6 @@ def main ():
     neurona = Neurona("código cap11/datas/sonar.all-data.csv")
     neurona.preparacion_datos()
     neurona.aprendizaje()
-    tf_neuronas_entradas_X, tf_valores_reales_Y =  neurona.parametrización(300, 60, 2, 0.01)
+    tf_neuronas_entradas_X, tf_valores_reales_Y =  neurona.parametrización(12)
 if __name__ == "__main__":
     main()
