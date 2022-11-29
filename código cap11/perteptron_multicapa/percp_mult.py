@@ -21,7 +21,7 @@ class Percepton():
         peso_capa_oculta = tf.Variable(tf.random_normal([2, 1]), tf.float32)
         return pesos, peso_capa_oculta
 
-    del calculo_sesgo(self):
+    def calculo_sesgo(self):
         #El primer sesgo contiene 2 pesos
         sesgo = tf.Variable(tf.zeros([2]))
         #El segundo sesgo contiene 1 peso
@@ -50,7 +50,7 @@ class Percepton():
         optimizador = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(funcion_error)
         return optimizador
 
-    def aprendizaje(self):
+    def aprendizaje(self, optimizador, funcion_error):
         #Inicialización de la variable
         init = tf.global_variables_initializer()
 
@@ -73,8 +73,8 @@ class Percepton():
 
             #Visualización de la información
             Grafica_MSE.append(MSE)
-            print("EPOCH (" + str(i) + "/" + str(epochs) + ") -  MSE: "+ str(MSE))
-        return graf, sesion
+            print("EPOCH (" + str(i) + "/" + str(self.epochs) + ") -  MSE: "+ str(MSE))
+        return Grafica_MSE, sesion
 
     def grafica(self, Grafica_MSE):
         #Visualización gráfica
@@ -101,5 +101,9 @@ def main():
     pesos, peso_capa_oculta = perceptron.pesos()
     sesgo, sesgo_capa_oculta = perceptron.calculo_sesgo()
     activacion,  activacion_capa_oculta = perceptron.activacion( pesos, sesgo, peso_capa_oculta, sesgo_capa_oculta)
-    funcion_error = funcion_error(activacion_capa_oculta)
-    optimizador = optimizador(funcion_error)
+    funcion_error = perceptron.funcion_error(activacion_capa_oculta)
+    optimizador = perceptron.optimizador(funcion_error)
+    Grafica_MSE, sesion = perceptron.aprendizaje(optimizador, funcion_error)
+    perceptron.grafica(Grafica_MSE)
+    perceptron.verificaciones(sesion, activacion_capa_oculta)
+
