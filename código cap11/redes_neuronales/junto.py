@@ -76,7 +76,8 @@ def main ():
     neurona = Neurona("código cap11/datas/sonar.all-data.csv")
     X, Y = neurona.preparacion_datos()
     neurona.aprendizaje(X, Y)
-    neurona.parametrización(12)
+    tf_neuronas_entradas_X, tf_valores_reales_Y, pesos, peso_sesgo = neurona.parametrización(12)
+
 
 
 if __name__ == "__main__":
