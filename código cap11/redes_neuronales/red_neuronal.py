@@ -202,11 +202,11 @@ class Neurona():
 
 
 
-def main ():
+def main (capas):
     neurona = Neurona()
     X, Y = neurona.preparacion_datos()
     train_x, test_x, train_y, test_y = neurona.aprendizaje(X, Y)
-    tf_neuronas_entradas_X, tf_valores_reales_Y, pesos, peso_sesgo =  neurona.parametrización(26)
+    tf_neuronas_entradas_X, tf_valores_reales_Y, pesos, peso_sesgo =  neurona.parametrización(capas)
     #Creación de la red neuronal
     neurona.red_neuronas_multicapa(tf_neuronas_entradas_X, pesos, peso_sesgo)
     red, funcion_error, funcion_precision, optimizador = neurona.error_optimizacion(tf_neuronas_entradas_X, tf_valores_reales_Y, pesos, peso_sesgo)
