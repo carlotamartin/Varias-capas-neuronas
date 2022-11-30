@@ -38,18 +38,22 @@ def menu_principal():
 
 
 def accion1():
-    print('Has elegido la opción 1')
+    print('Has elegido la opción con 12 capas')
+    red_neuronal.main(12)
 
 
 def accion2():
-    print('Has elegido la opción 2')
+    print('Has elegido la opción con 24 capas')
+    red_neuronal.main(24)
 
 
 def accion3():
-    print('Has elegido la opción 3')
+    print('Has elegido la opción con 26 capas')
+    red_neuronal.main(26)
 
 def accion4():
-    print('Has elegido la opción 4')
+    print('Has elegido la opción con 31 capas')
+    red_neuronal.main(311)
 
 
 def salir():
