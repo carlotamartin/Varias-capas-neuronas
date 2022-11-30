@@ -32,7 +32,8 @@ def menu_principal():
         '2': ('24 capas', accion2),
         '3': ('26 capas', accion3),
         '4': ('31 capas', accion4),
-        '5': ('Salir', salir)
+        '5': ('Ingresa por pantalla el número de capas que quieres en tu red', accion5),
+        '6': ('Salir', salir)
     }
     generar_menu(opciones, '5')
 
@@ -53,7 +54,11 @@ def accion3():
 
 def accion4():
     print('Has elegido la opción con 31 capas')
-    red_neuronal.main(311)
+    red_neuronal.main(31)
+
+def accion5():
+    print('Has elegido la opción de ingresar el número de capas por pantalla')
+    red_neuronal.main(int(input('Ingresa el número de capas que quieres en tu red: ')))
 
 
 def salir():
